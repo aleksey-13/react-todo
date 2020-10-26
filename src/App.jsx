@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Switch, Route } from "react-router-dom";
 
-import { getCollection } from './api'
+import { getCollection } from "./api";
+
+import DBContext from "context/db";
 
 import AppDrawer from "./components/AppDrawer";
 import AppContent from "./components/AppContent";
+import TodoList from "./components/TodoList";
 
 import "./App.scss";
 
@@ -12,21 +16,21 @@ function App() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    getCollection('lists').then(setLists)
-    getCollection('todos').then(setTodos)
+    getCollection("lists").then(setLists);
+    getCollection("todos").then(setTodos);
   }, []);
 
   return (
-    <div className="app">
-      <AppDrawer />
-      <AppContent>
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>{todo.title}</li>
-          ))}
-        </ul>
-      </AppContent>
-    </div>
+    <DBContext.Provider value={{ lists, todos }}>
+      <div className="app">
+        <AppDrawer lists={lists} />
+        <AppContent>
+          <Switch>
+            <Route path="/:listId" component={TodoList} />
+          </Switch>
+        </AppContent>
+      </div>
+    </DBContext.Provider>
   );
 }
 
