@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { db } from "./firebase";
+import { getCollection } from './api'
 
 import AppDrawer from "./components/AppDrawer";
 import AppContent from "./components/AppContent";
@@ -8,22 +8,12 @@ import AppContent from "./components/AppContent";
 import "./App.scss";
 
 function App() {
+  const [lists, setLists] = useState([]);
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    db.collection("todos")
-      .get()
-      .then((snapshot) => {
-        const todos = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setTodos(todos);
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
+    getCollection('lists').then(setLists)
+    getCollection('todos').then(setTodos)
   }, []);
 
   return (
