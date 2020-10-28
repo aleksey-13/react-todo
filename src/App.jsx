@@ -13,7 +13,6 @@ import "./App.scss";
 
 function App() {
   const [lists, setLists] = useState([]);
-  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     getCollection("lists").then(setLists);
@@ -21,7 +20,7 @@ function App() {
   }, []);
 
   return (
-    <DBContext.Provider value={{ lists, todos }}>
+    <DBContext.Provider value={{ lists, todos, get }}>
       <div className="app">
         <AppDrawer lists={lists} />
         <AppContent>
