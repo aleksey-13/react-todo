@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Drawer,
@@ -13,8 +13,11 @@ import {
   ListDivider,
 } from "mdc-react";
 
+import DBContext from "../../context/db";
+
 export default function AppDrawer(props) {
-  const { lists } = props;
+  const db = useContext(DBContext);
+
   const listItems = [
     { icon: "home", title: "Задачи", to: "/" },
     { icon: "star", title: "Важно", to: "/important" },
@@ -38,7 +41,7 @@ export default function AppDrawer(props) {
           </List>
           <ListDivider element="hr" />
           <List>
-            {lists.map((el) => (
+            {db.lists.map((el) => (
               <ListItem key={el.id} component={NavLink} to={el.id}>
                 <ListItemGraphic>
                   <Icon>list</Icon>

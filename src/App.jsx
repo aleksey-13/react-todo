@@ -15,14 +15,13 @@ function App() {
   const [lists, setLists] = useState([]);
 
   useEffect(() => {
-    getCollection("lists").then(setLists);
-    getCollection("todos").then(setTodos);
+    getCollection("lists")().then(setLists);
   }, []);
 
   return (
-    <DBContext.Provider value={{ lists, todos, get }}>
+    <DBContext.Provider value={{ lists, getCollection }}>
       <div className="app">
-        <AppDrawer lists={lists} />
+        <AppDrawer />
         <AppContent>
           <Switch>
             <Route path="/:listId" component={TodoList} />
