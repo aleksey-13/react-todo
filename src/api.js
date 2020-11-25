@@ -1,20 +1,20 @@
-import { db } from "./firebase";
+import { db } from './firebase'
 
 export function getCollection(collectionName) {
   const collection = db.collection(collectionName)
-    return (query = () => collection) => {
-      return query(db.collection(collectionName))
+  return (query = () => collection) => {
+    return query(db.collection(collectionName))
       .get()
       .then((snapshot) => {
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-        }));
+        }))
 
-        return data;
+        return data
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-    }
+        console.log('Error getting documents: ', error)
+      })
+  }
 }

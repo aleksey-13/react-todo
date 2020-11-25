@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { Switch, Route } from 'react-router-dom'
 
-import { getCollection } from "./api";
+import { getCollection } from './api'
 
-import DBContext from "context/db";
+import DBContext from 'context/db'
 
-import AppDrawer from "./components/AppDrawer";
-import AppContent from "./components/AppContent";
-import TodoList from "./components/TodoList";
+import AppDrawer from './components/AppDrawer'
+import AppContent from './components/AppContent'
+import TodoList from './components/TodoList'
 
-import "./App.scss";
+import './App.scss'
 
 function App() {
-  const [lists, setLists] = useState([]);
+  const [lists, setLists] = useState([])
 
   useEffect(() => {
-    getCollection("lists")().then(setLists);
-  }, []);
+    getCollection('lists')().then(setLists)
+  }, [])
 
   return (
     <DBContext.Provider value={{ lists, getCollection }}>
@@ -29,7 +29,7 @@ function App() {
         </AppContent>
       </div>
     </DBContext.Provider>
-  );
+  )
 }
 
-export default App;
+export default App
