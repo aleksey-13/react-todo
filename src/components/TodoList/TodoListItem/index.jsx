@@ -3,18 +3,35 @@ import {
     ListItem,
     ListItemGraphic,
     ListItemText,
-    Checkbox
-  } from "mdc-react";
+    Checkbox,
+    ListItemMeta,
+    Icon,
+    IconButton
+} from 'mdc-react'
+
+import './style.scss'
 
 function TodoListItem(todo) {
-    const { completed, onCompleteChange, title } = todo
+    console.log(todo, 'dfsfsdfsddfds')
+    const { completed, title, onDelete, id, onUpdate, onSelect } = todo
+    function handleChange(val) {
+        onUpdate(id, { completed: val.target.checked })
+    }
 
-    return <ListItem>
-        <ListItemGraphic>
-            <Checkbox checked={completed} onChange={onCompleteChange} />
-        </ListItemGraphic>
-        <ListItemText>{title}</ListItemText>
-    </ListItem>
+    return (
+        <ListItem className="todo-list-item">
+            <ListItemGraphic>
+                <Checkbox checked={completed} onChange={handleChange} />
+            </ListItemGraphic>
+            <ListItemText onClick={() => onSelect(todo)}>{title}</ListItemText>
+
+            <ListItemMeta>
+                <IconButton onClick={() => onDelete(id)}>
+                    <Icon>delete</Icon>
+                </IconButton>
+            </ListItemMeta>
+        </ListItem>
+    )
 }
 
 export default TodoListItem

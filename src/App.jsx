@@ -1,35 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import { getCollection } from './api'
-
-import DBContext from 'context/db'
+import { reducer, initialState, actions } from 'store'
+import DataContext from 'context/data'
 
 import AppDrawer from './components/AppDrawer'
 import AppContent from './components/AppContent'
-import TodoList from './components/TodoList'
+import TodoListPage from './pages/TodoListPage'
 
 import './App.scss'
 
 function App() {
-  const [lists, setLists] = useState([])
+    const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    getCollection('lists')().then(setLists)
-  }, [])
+    useEffect(() => {
+        actions.getLists(dispatch)
+    }, [])
 
-  return (
-    <DBContext.Provider value={{ lists, getCollection }}>
-      <div className="app">
-        <AppDrawer />
-        <AppContent>
-          <Switch>
-            <Route path="/:listId" component={TodoList} />
-          </Switch>
-        </AppContent>
-      </div>
-    </DBContext.Provider>
-  )
+    return (
+        <DataContext.Provider value={{ state, dispatch }}>
+            <div className="app">
+                <AppDrawer lists={state.lists} />
+                <AppContent>
+                    <Switch>
+                        <Route
+                            path="/:listId/:todoId?"
+                            component={TodoListPage}
+                        />
+                    </Switch>
+                </AppContent>
+            </div>
+        </DataContext.Provider>
+    )
 }
 
 export default App
