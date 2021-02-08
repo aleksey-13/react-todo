@@ -6,18 +6,17 @@ const {
     GET_LIST_TODOS,
     CREATE_TODO,
     UPDATE_TODO,
-    DELETE_TODO
+    DELETE_TODO,
 } = {
     GET_LISTS: 'GET_LISTS',
     GET_TODOS: 'GET_TODOS',
     GET_LIST_TODOS: 'GET_LIST_TODOS',
     CREATE_TODO: 'CREATE_TODO',
     UPDATE_TODO: 'UPDATE_TODO',
-    DELETE_TODO: 'DELETE_TODO'
+    DELETE_TODO: 'DELETE_TODO',
 }
 
 export function reducer(state, action) {
-    console.log('action', action)
     switch (action.type) {
         case GET_LISTS:
             return { ...state, lists: state.lists.concat(action.payload.lists) }
@@ -27,6 +26,16 @@ export function reducer(state, action) {
             return { ...state, todos: state.todos.concat(action.payload.todos) }
         case CREATE_TODO:
             return { ...state, todos: state.todos.concat(action.payload.todo) }
+        case UPDATE_TODO:
+            console.log(action)
+            return {
+                ...state,
+                todos: [
+                    ...state.todos.map((t) =>
+                        t.id !== action.todoId ? { ...t, ...action.data } : t
+                    ),
+                ],
+            }
         default:
             return state
     }
@@ -63,7 +72,9 @@ export function createTodo(data, dispatch) {
 export function updateTodo(todoId, data, dispatch) {
     return api
         .updateTodo(todoId, data)
-        .then((todo) => dispatch({ type: UPDATE_TODO, payload: { todo } }))
+        .then((todoId) =>
+            dispatch({ type: UPDATE_TODO, payload: { todoId, data } })
+        )
 }
 // ...todos.map((t) => (t.id !== todoId ? { ...t, ...data } : t))
 
@@ -79,5 +90,5 @@ export const actions = {
     getTodos,
     createTodo,
     removeTodo,
-    updateTodo
+    updateTodo,
 }

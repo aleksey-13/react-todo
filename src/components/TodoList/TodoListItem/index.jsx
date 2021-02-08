@@ -6,13 +6,12 @@ import {
     Checkbox,
     ListItemMeta,
     Icon,
-    IconButton
+    IconButton,
 } from 'mdc-react'
 
 import './style.scss'
 
 function TodoListItem(todo) {
-    console.log(todo, 'dfsfsdfsddfds')
     const { completed, title, onDelete, id, onUpdate, onSelect } = todo
     function handleChange(val) {
         onUpdate(id, { completed: val.target.checked })

@@ -7,8 +7,8 @@ import './style.scss'
 
 function TodoList(props) {
     const { todos, list, onDelete, onUpdate, onSelect } = props
-    console.log(todos, list)
-    if (todos.length === 0 && list === undefined) {
+
+    if (todos.length === 0 || list === undefined) {
         return (
             <div className="todo-list">
                 <Typography variant="headline4" noMargin>

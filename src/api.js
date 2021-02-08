@@ -7,7 +7,7 @@ export function getLists() {
         .then((snapshot) => {
             const data = snapshot.docs.map((doc) => ({
                 id: doc.id,
-                ...doc.data()
+                ...doc.data(),
             }))
 
             return data
@@ -25,7 +25,7 @@ export function getTodos() {
         .then((snapshot) => {
             const data = snapshot.docs.map((doc) => ({
                 id: doc.id,
-                ...doc.data()
+                ...doc.data(),
             }))
             console.log('data', data)
             return data
@@ -43,7 +43,7 @@ export function getListTodos(listId) {
         .then((snapshot) => {
             const data = snapshot.docs.map((doc) => ({
                 id: doc.id,
-                ...doc.data()
+                ...doc.data(),
             }))
 
             return data
@@ -58,7 +58,7 @@ export function createTodo(data) {
         .collection('todos')
         .add({
             ...data,
-            completed: false
+            completed: false,
         })
         .then((docRef) => docRef.get())
         .then((doc) => ({ id: doc.id, ...doc.data() }))
@@ -78,6 +78,6 @@ export function updateTodo(todoId, data) {
         .collection('todos')
         .doc(todoId)
         .update(data)
-        .then((todo) => console.log(todo))
+        .then(() => todoId)
         .catch((error) => console.error('Error removing document: ', error))
 }

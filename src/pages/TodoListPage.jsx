@@ -15,26 +15,25 @@ function TodoListPage(props) {
     const { match } = props
     const { state, dispatch } = useContext(DataContext)
     const [selectedTodo, setSelectedTodo] = useState(null)
-    console.log(match.params.listId, 'match.params.listIdmatch.params.listId')
-    useEffect(() => {
-        // if (match.params.listId) {
-        actions.getListTodos(match.params.listId, dispatch)
-        // } else {
-        // actions.getTodos(dispatch)
-        // }
-        return () => setSelectedTodo(null)
-    }, [match.params.listId, dispatch])
 
-    // console.log('state', state)
+    useEffect(() => {
+        if (match.params.listId) {
+            actions.getListTodos(match.params.listId, dispatch)
+        } else {
+            actions.getTodos(dispatch)
+        }
+        return () => setSelectedTodo(null)
+    }, [match.params.listId, dispatch, state])
 
     const list = state.lists.find((list) => list.id === match.params.listId)
-    console.log('list', state, 'list')
+
     const handleSubmit = (title) =>
-        actions.createTodo({ title, listId: list.id })
+        actions.createTodo({ title, listId: list.id }, dispatch)
 
-    const handleDelete = (todoId) => actions.removeTodo(todoId)
+    const handleDelete = (todoId) => actions.removeTodo(todoId, dispatch)
 
-    const handleUpdate = (todoId, data) => actions.updateTodo(todoId, data)
+    const handleUpdate = (todoId, data) =>
+        actions.updateTodo(todoId, data, dispatch)
 
     const handleSelect = (todo) => setSelectedTodo(todo)
 

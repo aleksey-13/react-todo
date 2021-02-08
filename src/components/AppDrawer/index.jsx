@@ -10,7 +10,7 @@ import {
     ListItemText,
     Icon,
     ListGroup,
-    ListDivider
+    ListDivider,
 } from 'mdc-react'
 
 export default function AppDrawer(props) {
@@ -19,7 +19,7 @@ export default function AppDrawer(props) {
     const listItems = [
         { icon: 'home', title: 'Задачи', to: '/' },
         { icon: 'star', title: 'Важно', to: '/important' },
-        { icon: 'event', title: 'Запланированые', to: '/planned' }
+        { icon: 'event', title: 'Запланированые', to: '/planned' },
     ]
     return (
         <Drawer id="app-drawer">
