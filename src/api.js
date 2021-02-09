@@ -1,4 +1,13 @@
-import { db } from './firebase'
+import { db, auth } from './firebase'
+
+export function loginUser(login, password) {
+    return auth
+        .signInWithEmailAndPassword(login, password)
+        .then((msg) => console.log(msg))
+        .catch((error) => {
+            console.log(error)
+        })
+}
 
 export function getLists() {
     return db
@@ -78,6 +87,10 @@ export function updateTodo(todoId, data) {
         .collection('todos')
         .doc(todoId)
         .update(data)
-        .then(() => todoId)
+        .then(() => ({ id: todoId, ...data }))
         .catch((error) => console.error('Error removing document: ', error))
+}
+
+export function onAuth(handleAuth) {
+    auth.onAuthStateChanged(handleAuth)
 }

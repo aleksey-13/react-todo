@@ -23,7 +23,7 @@ function TodoListPage(props) {
             actions.getTodos(dispatch)
         }
         return () => setSelectedTodo(null)
-    }, [match.params.listId, dispatch, state])
+    }, [dispatch, match.params.listId])
 
     const list = state.lists.find((list) => list.id === match.params.listId)
 

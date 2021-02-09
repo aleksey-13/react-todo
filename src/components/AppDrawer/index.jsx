@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
+
 import { NavLink } from 'react-router-dom'
+
 import {
     Drawer,
     DrawerHeader,
@@ -13,8 +15,12 @@ import {
     ListDivider,
 } from 'mdc-react'
 
+import DataContext from 'context/data'
+
 export default function AppDrawer(props) {
+    const { state } = useContext(DataContext)
     const { lists } = props
+    console.log()
 
     const listItems = [
         { icon: 'home', title: 'Задачи', to: '/' },
@@ -23,7 +29,10 @@ export default function AppDrawer(props) {
     ]
     return (
         <Drawer id="app-drawer">
-            <DrawerHeader title="React Todo"></DrawerHeader>
+            <DrawerHeader
+                title="React Todo"
+                subtitle={state.user ? state.user.email : ''}
+            ></DrawerHeader>
             <DrawerContent>
                 <ListGroup>
                     <List>

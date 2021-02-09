@@ -7,6 +7,8 @@ const {
     CREATE_TODO,
     UPDATE_TODO,
     DELETE_TODO,
+    LOGIN_USER,
+    LOGOUT_USER,
 } = {
     GET_LISTS: 'GET_LISTS',
     GET_TODOS: 'GET_TODOS',
@@ -14,34 +16,48 @@ const {
     CREATE_TODO: 'CREATE_TODO',
     UPDATE_TODO: 'UPDATE_TODO',
     DELETE_TODO: 'DELETE_TODO',
+    LOGIN_USER: 'LOGIN_USER',
+    LOGOUT_USER: 'LOGOUT_USER',
 }
 
 export function reducer(state, action) {
     switch (action.type) {
+        case LOGIN_USER:
+            return { ...state, user: action.payload.user }
+        case LOGOUT_USER:
+            return { ...state, user: null }
         case GET_LISTS:
-            return { ...state, lists: state.lists.concat(action.payload.lists) }
+            return { ...state, lists: action.payload.lists }
         case GET_LIST_TODOS:
-            return { ...state, todos: state.todos.concat(action.payload.todos) }
+            return { ...state, todos: action.payload.todos }
         case GET_TODOS:
-            return { ...state, todos: state.todos.concat(action.payload.todos) }
+            return { ...state, todos: action.payload.todos }
         case CREATE_TODO:
             return { ...state, todos: state.todos.concat(action.payload.todo) }
         case UPDATE_TODO:
-            console.log(action)
             return {
                 ...state,
-                todos: [
-                    ...state.todos.map((t) =>
-                        t.id !== action.todoId ? { ...t, ...action.data } : t
-                    ),
-                ],
+                todos: state.todos.map((t) =>
+                    t.id === action.todoId
+                        ? { ...t, ...action.payload.data }
+                        : t
+                ),
+            }
+        case DELETE_TODO:
+            return {
+                ...state,
+                todos: state.todos.filter((t) => t.id !== action.payload.id),
             }
         default:
             return state
     }
 }
 
-export const initialState = { lists: [], todos: [] }
+export const initialState = { lists: [], todos: [], user: null }
+
+export function loginUser(login, password) {
+    return api.loginUser(login, password)
+}
 
 export function getLists(dispatch) {
     return api
@@ -58,9 +74,7 @@ export function getTodos(dispatch) {
 export function getListTodos(listId, dispatch) {
     return api
         .getListTodos(listId)
-        .then((todos) =>
-            dispatch({ type: GET_LIST_TODOS, payload: { todos, listId } })
-        )
+        .then((todos) => dispatch({ type: GET_LIST_TODOS, payload: { todos } }))
 }
 
 export function createTodo(data, dispatch) {
@@ -76,12 +90,21 @@ export function updateTodo(todoId, data, dispatch) {
             dispatch({ type: UPDATE_TODO, payload: { todoId, data } })
         )
 }
-// ...todos.map((t) => (t.id !== todoId ? { ...t, ...data } : t))
 
 export function removeTodo(todoId, dispatch) {
     return api
         .removeTodo(todoId)
         .then((id) => dispatch({ type: DELETE_TODO, payload: { id } }))
+}
+
+export function setAuth(dispatch) {
+    api.onAuth((user) => {
+        if (user) {
+            dispatch({ type: LOGIN_USER, payload: { user } })
+        } else {
+            dispatch({ type: LOGOUT_USER })
+        }
+    })
 }
 
 export const actions = {
@@ -91,4 +114,6 @@ export const actions = {
     createTodo,
     removeTodo,
     updateTodo,
+    setAuth,
+    loginUser,
 }
