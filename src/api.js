@@ -9,6 +9,15 @@ export function loginUser(login, password) {
         })
 }
 
+export function registerUser(email, password) {
+    return auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((msg) => console.log(msg))
+        .catch((error) => {
+            console.log(error)
+        })
+}
+
 export function getLists() {
     return db
         .collection('lists')

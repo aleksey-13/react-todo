@@ -1,0 +1,8 @@
+export const GET_LISTS = 'GET_LISTS'
+export const GET_TODOS = 'GET_TODOS'
+export const GET_LIST_TODOS = 'GET_LIST_TODOS'
+export const CREATE_TODO = 'CREATE_TODO'
+export const UPDATE_TODO = 'UPDATE_TODO'
+export const DELETE_TODO = 'DELETE_TODO'
+export const LOGIN_USER = 'LOGIN_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'

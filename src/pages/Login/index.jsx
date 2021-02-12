@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 
-import {} from 'mdc-react'
+// import {} from 'mdc-react'
 
 import { actions } from 'store'
 
-import { loginUser } from 'api'
-
-function LoginPage({ histore }) {
+function LoginPage({ history }) {
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
 

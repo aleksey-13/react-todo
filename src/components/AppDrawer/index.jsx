@@ -10,29 +10,42 @@ import {
     ListItem,
     ListItemGraphic,
     ListItemText,
+    IconButton,
     Icon,
     ListGroup,
     ListDivider,
 } from 'mdc-react'
 
 import DataContext from 'context/data'
+import { actions } from 'store'
 
 export default function AppDrawer(props) {
-    const { state } = useContext(DataContext)
+    const { state, actions } = useContext(DataContext)
     const { lists } = props
-    console.log()
 
     const listItems = [
         { icon: 'home', title: 'Задачи', to: '/' },
         { icon: 'star', title: 'Важно', to: '/important' },
         { icon: 'event', title: 'Запланированые', to: '/planned' },
     ]
+
+    const subtitle = (
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
+            {state.user ? state.user.email : ''}
+            <IconButton onClick={() => actions.setAuth(dispatch)}>
+                <Icon>exit_to_app</Icon>
+            </IconButton>
+        </div>
+    )
     return (
         <Drawer id="app-drawer">
-            <DrawerHeader
-                title="React Todo"
-                subtitle={state.user ? state.user.email : ''}
-            ></DrawerHeader>
+            <DrawerHeader title="React Todo" subtitle={subtitle}></DrawerHeader>
             <DrawerContent>
                 <ListGroup>
                     <List>

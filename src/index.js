@@ -1,14 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import App from "./App";
+import App from './App'
+import { Provider, initialState, reducer } from 'store/index'
 
-import "./index.scss";
+import './index.scss'
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById("root")
-);
+    <Provider initialState={initialState} reducer={reducer}>
+        <Router>
+            <App />
+        </Router>
+    </Provider>,
+    document.getElementById('root')
+)

@@ -1,8 +1,3 @@
-import { createContext } from "react";
+import { createContext } from 'react'
 
-const initState = {
-  todos: [],
-  lists: [],
-};
-
-export default createContext(initState);
+export default createContext()
